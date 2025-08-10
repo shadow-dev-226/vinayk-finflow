@@ -31,6 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { icon: BarChart3, label: 'Analytics', path: '/analytics' },
     { icon: MessageCircle, label: 'Contact', path: '/contact' },
     { icon: Plus, label: 'Add Income/Expenses', path: '/add-transaction' },
+    { icon: Settings, label: 'Manage Transactions', path: '/manage-transactions' },
     ...(user?.role === 'admin' ? [{ icon: Settings, label: 'Admin Panel', path: '/admin' }] : []),
   ];
 

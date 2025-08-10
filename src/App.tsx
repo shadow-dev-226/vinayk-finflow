@@ -11,6 +11,7 @@ import AddTransaction from "./pages/AddTransaction";
 import Analytics from "./pages/Analytics";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
+import ManageTransactions from "./pages/ManageTransactions";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
             <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
             <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+            <Route path="/manage-transactions" element={<ProtectedRoute><ManageTransactions /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
