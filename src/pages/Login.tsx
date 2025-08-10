@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import vinayakLogo from '@/assets/vinayak-logo.png';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -50,8 +51,15 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/50 p-4">
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader className="text-center space-y-4">
-          <div className="w-16 h-16 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
-            <span className="text-2xl font-bold text-white">VM</span>
+          <div className="flex flex-col items-center space-y-4">
+            <img 
+              src={vinayakLogo} 
+              alt="Vinayak Mitra Mandal Logo" 
+              className="w-24 h-24 object-contain"
+            />
+            <div className="w-16 h-16 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
+              <span className="text-2xl font-bold text-white">VM</span>
+            </div>
           </div>
           <div>
             <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
@@ -63,16 +71,15 @@ const Login: React.FC = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="userId">User ID</Label>
+              <Label htmlFor="userId">Username</Label>
               <Input
                 id="userId"
                 type="text"
-                placeholder="Enter your 9-digit ID"
+                placeholder="Enter your username"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 required
-                maxLength={9}
-                className="text-center text-lg tracking-wider"
+                className="text-center text-lg"
               />
             </div>
             <div className="space-y-2">

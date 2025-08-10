@@ -37,34 +37,50 @@ const Analytics: React.FC = () => {
 
   const fetchAnalyticsData = async () => {
     try {
-      // Fetch income data with user names
-      const { data: income } = await supabase
-        .from('income')
-        .select(`
-          id,
-          amount,
-          name,
-          user_id,
-          created_at,
-          users!inner(name)
-        `)
-        .order('created_at', { ascending: false });
+      // Users can only see their own data unless they're admin
+      const incomeQuery = user?.role === 'admin' 
+        ? supabase.from('income').select(`
+            id,
+            amount,
+            name,
+            user_id,
+            created_at,
+            users!inner(name)
+          `)
+        : supabase.from('income').select(`
+            id,
+            amount,
+            name,
+            user_id,
+            created_at,
+            users!inner(name)
+          `).eq('user_id', user?.id);
+      
+      const expenseQuery = user?.role === 'admin'
+        ? supabase.from('expenses').select(`
+            id,
+            amount,
+            reason,
+            user_id,
+            created_at,
+            users!inner(name)
+          `)
+        : supabase.from('expenses').select(`
+            id,
+            amount,
+            reason,
+            user_id,
+            created_at,
+            users!inner(name)
+          `).eq('user_id', user?.id);
 
-      // Fetch expense data with user names
-      const { data: expenses } = await supabase
-        .from('expenses')
-        .select(`
-          id,
-          amount,
-          reason,
-          user_id,
-          created_at,
-          users!inner(name)
-        `)
-        .order('created_at', { ascending: false });
+      const [incomeResponse, expenseResponse] = await Promise.all([
+        incomeQuery.order('created_at', { ascending: false }),
+        expenseQuery.order('created_at', { ascending: false })
+      ]);
 
-      setIncomeData(income || []);
-      setExpenseData(expenses || []);
+      setIncomeData(incomeResponse.data || []);
+      setExpenseData(expenseResponse.data || []);
     } catch (error) {
       console.error('Error fetching analytics data:', error);
     } finally {
@@ -217,7 +233,9 @@ const Analytics: React.FC = () => {
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold">Analytics</h1>
-          <p className="text-muted-foreground">Financial insights from all members</p>
+          <p className="text-muted-foreground">
+            {user?.role === 'admin' ? 'Financial insights from all members' : 'Your financial insights'}
+          </p>
         </div>
         <Button
           variant="outline"

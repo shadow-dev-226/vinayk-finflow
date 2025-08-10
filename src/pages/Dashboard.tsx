@@ -25,18 +25,22 @@ const Dashboard: React.FC = () => {
 
   const fetchFinancialData = async () => {
     try {
-      // Fetch all income records
-      const { data: incomeData } = await supabase
-        .from('income')
-        .select('amount');
+      // Users can only see their own data unless they're admin
+      const incomeQuery = user?.role === 'admin' 
+        ? supabase.from('income').select('amount')
+        : supabase.from('income').select('amount').eq('user_id', user?.id);
+      
+      const expenseQuery = user?.role === 'admin'
+        ? supabase.from('expenses').select('amount')
+        : supabase.from('expenses').select('amount').eq('user_id', user?.id);
 
-      // Fetch all expense records  
-      const { data: expenseData } = await supabase
-        .from('expenses')
-        .select('amount');
+      const [incomeResponse, expenseResponse] = await Promise.all([
+        incomeQuery,
+        expenseQuery
+      ]);
 
-      const totalIncome = incomeData?.reduce((sum, record) => sum + Number(record.amount), 0) || 0;
-      const totalExpenses = expenseData?.reduce((sum, record) => sum + Number(record.amount), 0) || 0;
+      const totalIncome = incomeResponse.data?.reduce((sum, record) => sum + Number(record.amount), 0) || 0;
+      const totalExpenses = expenseResponse.data?.reduce((sum, record) => sum + Number(record.amount), 0) || 0;
       const balance = totalIncome - totalExpenses;
 
       setFinancialData({
@@ -118,7 +122,7 @@ const Dashboard: React.FC = () => {
                 {formatCurrency(financialData.totalIncome)}
               </div>
               <p className="text-xs text-muted-foreground">
-                From all members
+                {user?.role === 'admin' ? 'From all members' : 'Your contributions'}
               </p>
             </div>
           </CardContent>
@@ -140,7 +144,7 @@ const Dashboard: React.FC = () => {
                 {formatCurrency(financialData.totalExpenses)}
               </div>
               <p className="text-xs text-muted-foreground">
-                All expenditures
+                {user?.role === 'admin' ? 'All expenditures' : 'Your expenses'}
               </p>
             </div>
           </CardContent>
