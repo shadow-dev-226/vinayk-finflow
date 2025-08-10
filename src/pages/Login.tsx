@@ -52,13 +52,12 @@ const Login: React.FC = () => {
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader className="text-center space-y-4">
           <div className="flex flex-col items-center space-y-4">
-            <img 
-              src={vinayakLogo} 
-              alt="Vinayak Mitra Mandal Logo" 
-              className="w-24 h-24 object-contain"
-            />
-            <div className="w-16 h-16 mx-auto bg-gradient-primary rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold text-white">VM</span>
+            <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-white p-2 shadow-elevated">
+              <img 
+                src="/lovable-uploads/049b7197-5645-41fd-a24a-cefe50eabaf3.png" 
+                alt="Vinayak Mitra Mandal Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
           <div>
@@ -79,7 +78,7 @@ const Login: React.FC = () => {
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 required
-                className="text-center text-lg"
+                className="text-lg"
               />
             </div>
             <div className="space-y-2">
