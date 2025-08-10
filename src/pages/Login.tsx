@@ -54,7 +54,7 @@ const Login: React.FC = () => {
           <div className="flex flex-col items-center space-y-4">
             <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-white p-2 shadow-elevated">
               <img 
-                src="/lovable-uploads/049b7197-5645-41fd-a24a-cefe50eabaf3.png" 
+                src="/lovable-uploads/36470eb8-c1b2-487f-94e5-00a07bf613a0.png" 
                 alt="Vinayak Mitra Mandal Logo" 
                 className="w-full h-full object-contain"
               />
